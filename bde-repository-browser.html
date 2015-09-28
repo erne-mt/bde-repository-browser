@@ -7,7 +7,10 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/paper-fab/paper-fab.html"/>
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+
 
 <!--
 An element providing a solution to no problem in particular.
@@ -29,9 +32,15 @@ Example:
         display: block;
         box-sizing: border-box;
       }
+
+      :host #addBtn {
+        float: right;
+        margin: 25px;
+        background-color: #787f7c;
+      }
     </style>
 
-    <paper-fab icon="add"></paper-fab>
+    <paper-fab id="addBtn" icon="add"></paper-fab>
 
   </template>
 

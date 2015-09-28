@@ -1,6 +1,6 @@
 {
   "name": "bde-repository-browser",
-  "version": "1.0.3",
+  "version": "0.0.1",
   "authors": [
     "Erik Neute <erik.neute@hm-ag.de>"
   ],
@@ -16,6 +16,8 @@
     "/test/"
   ],
   "dependencies": {
+    "iron-elements": "PolymerElements/iron-elements#~1.0.4",
+    "paper-elements": "PolymerElements/paper-elements#~1.0.5",
     "polymer": "Polymer/polymer#^1.1.0"
   },
   "devDependencies": {
