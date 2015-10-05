@@ -9,8 +9,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <link rel="import" href="bower_components/polymer/polymer.html">
 <link rel="import" href="bower_components/paper-fab/paper-fab.html"/>
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html"/>
+<link rel="import" href="bower_components/paper-input/paper-input.html"/>
+<link rel="import" href="bower_components/paper-button/paper-button.html"/>
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html"/>
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/paper-item/paper-item.html">
+<link rel="import" href="bower_components/paper-tooltip/paper-tooltip.html">
 
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+
+<link rel="import" href="bower_components/paper-toast/paper-toast.html">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+<link rel="import" href="bower_components/neon-animation/animations/fade-out-animation.html">
 
 <!--
 An element providing a solution to no problem in particular.
@@ -26,34 +38,159 @@ Example:
 -->
 <dom-module id="bde-repository-browser">
 
-  <template>
-    <style>
-      :host {
-        display: block;
-        box-sizing: border-box;
-      }
+    <template>
 
-      :host #addBtn {
-        float: right;
-        margin: 25px;
-        background-color: #787f7c;
-      }
-    </style>
+        <style>
+            :host {
+                display: block;
+                box-sizing: border-box;
+                font-family: 'Roboto Mono', 'Consolas', 'Menlo', monospace;
+            }
 
-    <paper-fab id="addBtn" icon="add"></paper-fab>
+            :host #addBtn {
+                float: right;
+                margin: 25px;
+                background-color: #787f7c;
+            }
 
-  </template>
+            :host #searchDialog {
+                width: 45vw;
+            }
+
+            :host .item {
+                background-color: #fff;
+                margin: 2px;
+                padding: 5px;
+                border: 1px solid #999;
+                border-radius: 3px;
+            }
+
+            :host .addItem{
+                float: right;
+                color: #cfcfcf;
+            }
+        </style>
+
+        <iron-ajax
+                auto
+                id="webblebase"
+                url="{{url}}"
+                handle-as="json"
+                on-response="handleResponse">
+        </iron-ajax>
+
+        <paper-fab id="addBtn" icon="add" on-tap="toggleDialog"></paper-fab>
+
+        <paper-dialog id="searchDialog" with-backdrop exit-animation="fade-out-animation">
+
+            <paper-input id="baseSearch" label="search components in Base" type="search"
+                         placeholder="search..." on-keyup="handleKeyup">
+            </paper-input>
+
+            <template is="dom-repeat" items="{{filtered}}" as="webble" index-as="webbleIndex">
+                <paper-item class="item" flex>
+                    <h4>{{webble.name}}</h4> :
+                    <p>{{webble.description}}</p>
+                    <span flex></span>
+                    <paper-icon-button icon="add" on-tap="fireEvent"></paper-icon-button>
+                </paper-item>
+            </template>
+
+        </paper-dialog>
+
+    </template>
 
 </dom-module>
 
 <script>
 
-  Polymer({
+    Polymer({
 
-    is: 'bde-repository-browser',
+        is : 'bde-repository-browser',
 
-    properties: { }
+        properties : {
+            url : {notify : true},
+            /**
+             * Array for the filtered ajax response
+             *
+             * @property filtered
+             * @type array
+             */
+            filtered : {
+                type : Array,
+                value : function(){
+                    return [];
+                }
+            },
+            /**
+             * Array for the ajax response
+             *
+             * @property response
+             * @type array
+             */
+            response : {
+                type : Array,
+                value : function(){
+                    return [];
+                },
+                notify : true
+            },
 
-  });
+        },
+
+        toggleDialog : function(){
+            this.$.searchDialog.toggle();
+        },
+
+        /**
+         * Handles the input of a search term in the input field and returns the filtered array with the
+         * expression in the input.
+         *
+         * @method handleKeyup
+         * @param evt keyup-event
+         */
+        handleKeyup : function(evt){
+            var searchTerm = evt.target.value;
+            this.filtered = this.response.filter(function(item){
+                return item.name.match(new RegExp(evt.target.value));
+            });
+        },
+        /**
+         * Handles the response of the ajax call, i.e. filtering.
+         *
+         * @method response
+         * @param evt
+         * @param data
+         */
+        handleResponse : function(evt, data){
+            // Show only webcomponents or webapps
+            this.response = this.filtered = data.response.filter(function(item){
+                return item.webpackageType.match(/webcomponent/) && item.name.match(/^(?!bc|demo|bde)/);
+            });
+        },
+        // TODO (ene): use couchDB functionality for filtering certain document-attributes, like modelVersion // see JIRA for open task
+        // TODO (ene): filter the modelVersions and use them as dropdown selector
+
+        /**
+         * Fires an event with the parsed JSON data from the previous ajax call.
+         * At the moment it is used to call svg-flowchart to add the visual representation of the metadata.
+         *
+         * @method addObject
+         * @param data
+         */
+        addObject : function(data){
+
+            // process the clicked item's manifest files after getting the couchDBDocument
+            var baseObject = JSON.parse(data)
+
+            // fire custom event with the couchDB-object as payload, set listener in webpackdoc-parser
+            this.fire('addBaseObject', {baseObject : JSON.parse(data)});
+        },
+
+        fireEvent : function(evt){
+            console.log('>> addItemButton Tap <<')
+        }
+
+    });
 
 </script>
