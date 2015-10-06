@@ -7,18 +7,24 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
+<!-- libraries -->
 <link rel="import" href="bower_components/polymer/polymer.html">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+<!-- paper elements-->
 <link rel="import" href="bower_components/paper-fab/paper-fab.html"/>
 <link rel="import" href="bower_components/paper-dialog/paper-dialog.html"/>
 <link rel="import" href="bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html"/>
 <link rel="import" href="bower_components/paper-input/paper-input.html"/>
-<link rel="import" href="bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="bower_components/paper-item/paper-item.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
 
+<!-- iron elements -->
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/iron-collapse/iron-collapse.html">
 
-<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-
+<!-- neon elements -->
 <link rel="import" href="bower_components/neon-animation/animations/fade-out-animation.html">
 
 <!--
@@ -59,7 +65,13 @@ Example:
                 margin: 2px;
                 padding: 5px;
                 border: 1px solid #999;
-                border-radius: 3px;
+                /*border-radius: 3px;*/
+            }
+
+            :host .collapse-content {
+                margin: 2px;
+                background-color: #f3f3f3;
+                border: 1px solid #999;
             }
 
             :host .addItem {
@@ -88,12 +100,16 @@ Example:
 
                 <template is="dom-repeat" items="{{filtered}}" as="webble">
 
-                    <paper-item id="{{index}}" class="item" flex on-focus="openItem">
+                    <paper-item class="item" flex on-focus="openItem">
                         <h4>{{webble.name}}</h4>
-                        <div>{{webble.description}}</div>
                         <!-- TODO (ene): make description as a collapsible element-->
+                        <!-- TODO (ene): use more data -->
                         <!--<paper-icon-button class="addItem" icon="add" on-tap="fireEvent"></paper-icon-button>-->
                     </paper-item>
+
+                    <iron-collapse>
+                        <div class="collapse-content">{{webble.description}}</div>
+                    </iron-collapse>
 
                 </template>
             </paper-dialog-scrollable>
@@ -112,6 +128,7 @@ Example:
 
         properties : {
             url : {notify : true},
+
             /**
              * Array for the filtered ajax response
              *
