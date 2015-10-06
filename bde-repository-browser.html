@@ -10,16 +10,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="bower_components/polymer/polymer.html">
 <link rel="import" href="bower_components/paper-fab/paper-fab.html"/>
 <link rel="import" href="bower_components/paper-dialog/paper-dialog.html"/>
+<link rel="import" href="bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html"/>
 <link rel="import" href="bower_components/paper-input/paper-input.html"/>
-<link rel="import" href="bower_components/paper-button/paper-button.html"/>
-<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html"/>
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="bower_components/paper-item/paper-item.html">
-<link rel="import" href="bower_components/paper-tooltip/paper-tooltip.html">
 
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
 
-<link rel="import" href="bower_components/paper-toast/paper-toast.html">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
 <link rel="import" href="bower_components/neon-animation/animations/fade-out-animation.html">
@@ -53,7 +50,7 @@ Example:
                 background-color: #787f7c;
             }
 
-            :host #searchDialog {
+            :host paper-dialog {
                 width: 45vw;
             }
 
@@ -65,9 +62,9 @@ Example:
                 border-radius: 3px;
             }
 
-            :host .addItem{
-                float: right;
-                color: #cfcfcf;
+            :host .addItem {
+                position: absolute;
+                right: 10px;
             }
         </style>
 
@@ -83,18 +80,23 @@ Example:
 
         <paper-dialog id="searchDialog" with-backdrop exit-animation="fade-out-animation">
 
-            <paper-input id="baseSearch" label="search components in Base" type="search"
-                         placeholder="search..." on-keyup="handleKeyup">
+            <paper-input id="baseSearch" class="dialogHeader" label="Search components in Base" type="search"
+                         placeholder="Search for name..." on-keyup="handleKeyup">
             </paper-input>
 
-            <template is="dom-repeat" items="{{filtered}}" as="webble" index-as="webbleIndex">
-                <paper-item class="item" flex>
-                    <h4>{{webble.name}}</h4> :
-                    <p>{{webble.description}}</p>
-                    <span flex></span>
-                    <paper-icon-button icon="add" on-tap="fireEvent"></paper-icon-button>
-                </paper-item>
-            </template>
+            <paper-dialog-scrollable>
+
+                <template is="dom-repeat" items="{{filtered}}" as="webble">
+
+                    <paper-item id="{{index}}" class="item" flex on-focus="openItem">
+                        <h4>{{webble.name}}</h4>
+                        <div>{{webble.description}}</div>
+                        <!-- TODO (ene): make description as a collapsible element-->
+                        <!--<paper-icon-button class="addItem" icon="add" on-tap="fireEvent"></paper-icon-button>-->
+                    </paper-item>
+
+                </template>
+            </paper-dialog-scrollable>
 
         </paper-dialog>
 
@@ -142,6 +144,14 @@ Example:
             this.$.searchDialog.toggle();
         },
 
+        openItem : function(evt){
+            var itemIndex = evt.target.id
+
+            var itemObj = ( this.filtered )
+                    ? this.filtered[itemIndex]
+                    : this.response[itemIndex];
+        },
+
         /**
          * Handles the input of a search term in the input field and returns the filtered array with the
          * expression in the input.
@@ -155,6 +165,7 @@ Example:
                 return item.name.match(new RegExp(evt.target.value));
             });
         },
+
         /**
          * Handles the response of the ajax call, i.e. filtering.
          *
@@ -170,22 +181,6 @@ Example:
         },
         // TODO (ene): use couchDB functionality for filtering certain document-attributes, like modelVersion // see JIRA for open task
         // TODO (ene): filter the modelVersions and use them as dropdown selector
-
-        /**
-         * Fires an event with the parsed JSON data from the previous ajax call.
-         * At the moment it is used to call svg-flowchart to add the visual representation of the metadata.
-         *
-         * @method addObject
-         * @param data
-         */
-        addObject : function(data){
-
-            // process the clicked item's manifest files after getting the couchDBDocument
-            var baseObject = JSON.parse(data)
-
-            // fire custom event with the couchDB-object as payload, set listener in webpackdoc-parser
-            this.fire('addBaseObject', {baseObject : JSON.parse(data)});
-        },
 
         fireEvent : function(evt){
             console.log('>> addItemButton Tap <<')
