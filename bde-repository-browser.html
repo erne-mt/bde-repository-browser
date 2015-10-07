@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <!-- libraries -->
 <link rel="import" href="bower_components/polymer/polymer.html">
-<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link rel="import" href="bower_components/font-roboto/roboto.html"/>
 
 <!-- paper elements-->
 <link rel="import" href="bower_components/paper-fab/paper-fab.html"/>
@@ -26,6 +26,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!-- neon elements -->
 <link rel="import" href="bower_components/neon-animation/animations/fade-out-animation.html">
+
+<!-- custom elements -->
+<link rel="import" href="bower_components/bde-repository-item/bde-repository-item.html"/>
 
 <!--
 An element providing a solution to no problem in particular.
@@ -59,25 +62,6 @@ Example:
             :host paper-dialog {
                 width: 45vw;
             }
-
-            :host .item {
-                background-color: #fff;
-                margin: 2px;
-                padding: 5px;
-                border: 1px solid #999;
-                /*border-radius: 3px;*/
-            }
-
-            :host .collapse-content {
-                margin: 2px;
-                background-color: #f3f3f3;
-                border: 1px solid #999;
-            }
-
-            :host .addItem {
-                position: absolute;
-                right: 10px;
-            }
         </style>
 
         <iron-ajax
@@ -97,20 +81,9 @@ Example:
             </paper-input>
 
             <paper-dialog-scrollable>
-
                 <template is="dom-repeat" items="{{filtered}}" as="webble">
-
-                    <paper-item class="item" flex on-focus="openItem">
-                        <h4>{{webble.name}}</h4>
-                        <!-- TODO (ene): make description as a collapsible element-->
-                        <!-- TODO (ene): use more data -->
-                        <!--<paper-icon-button class="addItem" icon="add" on-tap="fireEvent"></paper-icon-button>-->
-                    </paper-item>
-
-                    <iron-collapse>
-                        <div class="collapse-content">{{webble.description}}</div>
-                    </iron-collapse>
-
+                    <bde-repository-item title="{{webble.name}}" description="{{webble.description}}" data="{{webble}}"
+                            ></bde-repository-item>
                 </template>
             </paper-dialog-scrollable>
 
@@ -161,14 +134,6 @@ Example:
             this.$.searchDialog.toggle();
         },
 
-        openItem : function(evt){
-            var itemIndex = evt.target.id
-
-            var itemObj = ( this.filtered )
-                    ? this.filtered[itemIndex]
-                    : this.response[itemIndex];
-        },
-
         /**
          * Handles the input of a search term in the input field and returns the filtered array with the
          * expression in the input.
@@ -198,10 +163,6 @@ Example:
         },
         // TODO (ene): use couchDB functionality for filtering certain document-attributes, like modelVersion // see JIRA for open task
         // TODO (ene): filter the modelVersions and use them as dropdown selector
-
-        fireEvent : function(evt){
-            console.log('>> addItemButton Tap <<')
-        }
 
     });
 

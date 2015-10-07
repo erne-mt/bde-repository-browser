@@ -18,7 +18,9 @@
   "dependencies": {
     "iron-elements": "PolymerElements/iron-elements#~1.0.4",
     "paper-elements": "PolymerElements/paper-elements#~1.0.5",
-    "polymer": "Polymer/polymer#^1.1.0"
+    "polymer": "Polymer/polymer#^1.1.0",
+    "roboto-fontface": "~0.4.3",
+    "bde-repository-item": "https://ene@pmt.incowia.de/webble/r/~ene/bde-repository-item.git"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
