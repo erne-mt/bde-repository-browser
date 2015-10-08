@@ -1,0 +1,26 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>bde-repository-item Demo</title>
+    <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../bde-repository-item.html">
+  </head>
+  <body unresolved>
+
+    <p>An example of <code>&lt;bde-repository-item&gt;</code>:</p>
+
+    <bde-repository-item></bde-repository-item>
+
+    <script>
+
+      document.querySelector('bde-repository-item').title = 'bde-repository-item';
+      document.querySelector('bde-repository-item').description = 'This is a description property of the <bde-repository-item> custom element.';
+      document.querySelector('bde-repository-item').data = {"name" : "test", "value" : "12345"}
+
+    </script>
+
+  </body>
+</html>

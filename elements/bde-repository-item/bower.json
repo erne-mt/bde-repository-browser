@@ -1,6 +1,6 @@
 {
-  "name": "bde-repository-browser",
-  "version": "0.0.1",
+  "name": "bde-repository-item",
+  "version": "0.1.0",
   "authors": [
     "Erik Neute <erik.neute@hm-ag.de>"
   ],
@@ -9,7 +9,7 @@
     "web-component",
     "polymer"
   ],
-  "main": "bde-repository-browser.html",
+  "main": "bde-repository-item.html",
   "license": "http://polymer.github.io/LICENSE.txt",
   "ignore": [
     "/.*",

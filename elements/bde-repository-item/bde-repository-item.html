@@ -1,0 +1,116 @@
+<!-- libraries -->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/font-roboto/roboto.html"/>
+
+<!-- paper elements -->
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+
+<!-- iron elements -->
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+
+<!--
+An element providing a collapsible item containing a name and a description, and a button, which fires a data-event
+
+Example:
+
+    <bde-repository-item title="myElement" description="This is the myElement description" data={{data}}></bde-repository-item>
+
+@element bde-repository-item
+@demo demo/index.html
+-->
+<dom-module id="bde-repository-item">
+
+    <template>
+        <style>
+            :host {
+                display: block;
+                box-sizing: border-box;
+                font-family: 'Roboto Mono', 'Consolas', 'Menlo', monospace;
+            }
+
+            :host .item {
+                background-color: #fff;
+                margin: 2px;
+                padding: 5px;
+                border: 1px solid #999;
+            }
+
+            :host .item h4 {
+                margin-left: 10px;
+            }
+
+            :host .collapse-content {
+                margin: 2px;
+                padding: 10px;
+                background-color: #f3f3f3;
+                border: 1px solid #999;
+            }
+
+            :host .addItemBtn {
+                margin-right: 10px;
+                background-color: #00b99e;
+            }
+
+        </style>
+
+        <paper-item class="item" flex on-tap="handleTap" on-blur="handleBlur">
+            <h4>[[title]]</h4>
+            <span class="flex"></span>
+            <paper-fab class="addItemBtn"
+                       mini
+                       icon="add"
+                       title="Add component"
+                       on-tap="fireAddEvent">
+            </paper-fab>
+        </paper-item>
+
+        <iron-collapse opened="{{open}}">
+            <div class="collapse-content">
+                <h5>Description:</h5>
+
+                <p>[[description]]</p>
+            </div>
+        </iron-collapse>
+
+    </template>
+
+</dom-module>
+
+<script>
+
+    Polymer({
+
+        is : 'bde-repository-item',
+
+        properties : {
+            title : String,
+            description : {
+                type : String,
+                value : function(){
+                    if (!this.description) {
+                        return ('No description available')
+                    }
+                }
+            },
+            data : Object,
+            open : Boolean
+        },
+
+        fireAddEvent : function(evt){
+            evt.stopPropagation();
+            this.fire('addBaseObject', {baseObject : this.data})
+        },
+
+        handleBlur : function(){
+            this.open = false;
+        },
+
+        handleTap : function(){
+            this.open = !this.open;
+        }
+
+    });
+
+</script>
