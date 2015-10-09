@@ -12,11 +12,16 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
 <!--
-An element providing a collapsible item containing a name and a description, and a button, which fires a data-event
+A BDE custom-element providing a collapsible item containing a name and a description, and a button,
+which fires an event containing a data-object.
 
 Example:
 
-    <bde-repository-item title="myElement" description="This is the myElement description" data={{data}}></bde-repository-item>
+    <bde-repository-item
+        title="myElement"
+        description="This is the myElement description"
+        data={{data}}>
+    </bde-repository-item>
 
 @group BDE Custom Elements
 @hero hero.svg
@@ -80,7 +85,7 @@ Example:
                 </div>
             </iron-collapse>
         </paper-material>
-        
+
     </template>
 
 </dom-module>
@@ -92,7 +97,23 @@ Example:
         is : 'bde-repository-item',
 
         properties : {
+
+            /**
+             * The title which is displayed in the item.
+             *
+             * @property title
+             * @type String
+             */
             title : String,
+
+            /**
+             * Description string, which is displayed as collapsible content. If now description property is provided a
+             * default string is displayed.
+             *
+             * @property description
+             * @type String
+             * @returns String
+             */
             description : {
                 type : String,
                 value : function(){
@@ -101,19 +122,50 @@ Example:
                     }
                 }
             },
+
+            /**
+             * Data object, which is attached to the item.
+             *
+             * @property data
+             * @type Object
+             */
             data : Object,
+
+            /**
+             * Controls the opened state of the collapsible content with the description.
+             *
+             * @property open
+             * @type Boolean
+             */
             open : Boolean
         },
 
+        /**
+         * Fires a custom event, containing the data object. Used to send the attached data to other elements of the
+         * application.
+         *
+         * @method fireAddEvent
+         * @param evt on-tap event
+         */
         fireAddEvent : function(evt){
             evt.stopPropagation();
             this.fire('addBaseObject', {baseObject : this.data})
         },
 
+        /**
+         * Handles a blur event from the item, i.e. sets the opened state of the collapsible content to 'false'.
+         *
+         * @method handleBlur
+         */
         handleBlur : function(){
             this.open = false;
         },
 
+        /**
+         * Handles a tap on the item, i.e. toggles the opened state of the collapsible content.
+         *
+         * @method handleTap
+         */
         handleTap : function(){
             this.open = !this.open;
         }

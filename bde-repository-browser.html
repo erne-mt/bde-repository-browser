@@ -99,10 +99,17 @@ Example:
         is : 'bde-repository-browser',
 
         properties : {
-            url : {notify : true},
 
             /**
-             * Array for the filtered ajax response
+             * The specified URL to the Base.
+             *
+             * @property url
+             * @type String
+             */
+            url : String,
+
+            /**
+             * Array for the filtered ajax response.
              *
              * @property filtered
              * @type array
@@ -110,7 +117,7 @@ Example:
             filtered : Array,
 
             /**
-             * Array for the ajax response
+             * Array for the ajax response.
              *
              * @property response
              * @type array
@@ -118,6 +125,11 @@ Example:
             response : Array
         },
 
+        /**
+         * Toggles the display-attribute of the dialog-overlay of the '#searchDialog'.
+         *
+         * @method toggleDialog
+         */
         toggleDialog : function(){
             this.$.searchDialog.toggle();
         },
@@ -139,9 +151,11 @@ Example:
         /**
          * Handles the response of the ajax call, i.e. filtering.
          *
+         * NOTICE: At the moment it is hard-coded, that it is filtered only for 'webcomponent'
+         *
          * @method response
-         * @param evt
-         * @param data
+         * @param evt on-response of iron-ajax
+         * @param data data of the ajax response
          */
         handleResponse : function(evt, data){
             // Show only webcomponents or webapps
