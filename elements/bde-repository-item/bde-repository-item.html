@@ -5,6 +5,7 @@
 <!-- paper elements -->
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
 
 <!-- iron elements -->
 <link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
@@ -17,6 +18,8 @@ Example:
 
     <bde-repository-item title="myElement" description="This is the myElement description" data={{data}}></bde-repository-item>
 
+@group BDE Custom Elements
+@hero hero.svg
 @element bde-repository-item
 @demo demo/index.html
 -->
@@ -32,20 +35,22 @@ Example:
 
             :host .item {
                 background-color: #fff;
-                margin: 2px;
+                margin: 5px;
                 padding: 5px;
-                border: 1px solid #999;
             }
 
             :host .item h4 {
                 margin-left: 10px;
             }
 
+            /* FIXME (ene): this is a hack for overwriting the blue outline, it is somewhat distracting; there should be a better solution*/
+            :host .item:focus {
+                outline: #ffffff;
+            }
+
             :host .collapse-content {
                 margin: 2px;
-                padding: 10px;
-                background-color: #f3f3f3;
-                border: 1px solid #999;
+                padding: 5px;
             }
 
             :host .addItemBtn {
@@ -55,25 +60,27 @@ Example:
 
         </style>
 
-        <paper-item class="item" flex on-tap="handleTap" on-blur="handleBlur">
-            <h4>[[title]]</h4>
-            <span class="flex"></span>
-            <paper-fab class="addItemBtn"
-                       mini
-                       icon="add"
-                       title="Add component"
-                       on-tap="fireAddEvent">
-            </paper-fab>
-        </paper-item>
+        <paper-material>
+            <paper-item class="item" flex on-tap="handleTap" on-blur="handleBlur">
+                <h4>[[title]]</h4>
+                <span class="flex"></span>
+                <paper-fab class="addItemBtn"
+                           mini
+                           icon="add"
+                           title="Add component"
+                           on-tap="fireAddEvent">
+                </paper-fab>
+            </paper-item>
 
-        <iron-collapse opened="{{open}}">
-            <div class="collapse-content">
-                <h5>Description:</h5>
+            <iron-collapse opened="{{open}}">
+                <div class="collapse-content">
+                    <h5>Description:</h5>
 
-                <p>[[description]]</p>
-            </div>
-        </iron-collapse>
-
+                    <p>[[description]]</p>
+                </div>
+            </iron-collapse>
+        </paper-material>
+        
     </template>
 
 </dom-module>

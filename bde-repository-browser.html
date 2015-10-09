@@ -25,9 +25,10 @@ Example:
 
     <bde-repository-browser url="https://webblebase.net/_api/webpackagesearch/v0.4/Webpackages"></bde-repository-browser>
 
+@group BDE Custom Elements
+@hero hero.svg
 @element bde-repository-browser
 @demo demo/index.html
-@hero hero.svg
 -->
 <dom-module id="bde-repository-browser">
 
@@ -52,7 +53,7 @@ Example:
 
             :host #dialogDismiss {
                 float: right;
-                margin: 0px;
+                margin: 0;
             }
 
         </style>
@@ -71,7 +72,7 @@ Example:
 
             <paper-icon-button id="dialogDismiss" dialog-dismiss icon="close"></paper-icon-button>
 
-            <paper-input id="baseSearch" class="dialogHeader" label="Search components in Base" type="search"
+            <paper-input id="baseSearch" class="dialogHeader" label="Search components in Base:" type="search"
                          placeholder="Search for name..." on-keyup="handleKeyup">
             </paper-input>
 
@@ -147,7 +148,7 @@ Example:
             this.response = this.filtered = data.response.filter(function(item){
                 return item.webpackageType.match(/webcomponent/) && item.name.match(/^(?!bc|demo|bde)/);
             });
-        },
+        }
         // TODO (ene): use couchDB functionality for filtering certain document-attributes, like modelVersion // see JIRA for open task
         // TODO (ene): filter the modelVersions and use them as dropdown selector
 
