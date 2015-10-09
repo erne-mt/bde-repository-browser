@@ -2,9 +2,10 @@
   "name": "bde-repository-item",
   "version": "0.1.0",
   "authors": [
-    "Erik Neute <erik.neute@hm-ag.de>"
+    "Erik Neute <erik.neute@hm-ag.de>",
+    "Felix Dürrwald <felix.duerrwald@hm-ag.de>"
   ],
-  "description": "An element providing a solution to no problem in particular.",
+  "description": "BDE custom element, item with description.",
   "keywords": [
     "web-component",
     "polymer"

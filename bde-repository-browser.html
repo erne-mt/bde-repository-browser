@@ -19,11 +19,14 @@
 <link rel="import" href="elements/bde-repository-item/bde-repository-item.html"/>
 
 <!--
-An element providing a solution to no problem in particular.
+A BDE custom element, which gets the 'Cubixx-Components' from the Base via AJAX.
+The response is a list of items with the description attribute on display.
 
 Example:
 
-    <bde-repository-browser url="https://webblebase.net/_api/webpackagesearch/v0.4/Webpackages"></bde-repository-browser>
+    <bde-repository-browser
+        url="https://webblebase.net/_api/webpackagesearch/v0.4/Webpackages">
+    </bde-repository-browser>
 
 @group BDE Custom Elements
 @hero hero.svg

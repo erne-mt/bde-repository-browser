@@ -1,10 +1,10 @@
 {
   "name": "bde-repository-browser",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "authors": [
     "Erik Neute <erik.neute@hm-ag.de>"
   ],
-  "description": "An element providing a solution to no problem in particular.",
+  "description": "BDE custom element, item list from Base via AJAX.",
   "keywords": [
     "web-component",
     "polymer"
