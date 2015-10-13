@@ -77,8 +77,12 @@ Example:
 
             <paper-icon-button id="dialogDismiss" dialog-dismiss icon="close"></paper-icon-button>
 
-            <paper-input id="baseSearch" class="dialogHeader" label="Search components in Base:" type="search"
-                         placeholder="Search for name..." on-keyup="handleKeyup">
+            <paper-input id="baseSearch"
+                         class="dialogHeader"
+                         label="Search components in Base by name..."
+                         type="search"
+                         on-keyup="handleKeyup">
+                <iron-icon icon="search" prefix></iron-icon>
             </paper-input>
 
             <paper-dialog-scrollable>
